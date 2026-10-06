@@ -3,11 +3,15 @@ import { createServer as createViteServer } from "vite";
 import path from "path";
 import dotenv from "dotenv";
 import { extractIntent, refineIntent, rankAndExplainEvents, UserIntent } from "./server/ragEngine.js";
+import apiRouter from "./api/index.js";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+
+// Mount root /api routes (Ticketmaster, Sora, Health)
+app.use("/api", apiRouter);
 
 const PORT = 3000;
 const isProd = process.env.NODE_ENV === "production";
