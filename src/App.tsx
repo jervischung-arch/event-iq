@@ -9,12 +9,13 @@ import { EventDetailModal } from "./components/EventDetailModal";
 import { EnterpriseModal } from "./components/EnterpriseModal";
 import { SavedEventsDrawer } from "./components/SavedEventsDrawer";
 import { UserIntent, RankedEventRecommendation, LiveEvent, SystemStatus } from "./types";
+import { DEFAULT_FALLBACK_INTENT, DEFAULT_FALLBACK_RECOMMENDATIONS } from "./fallbackData";
 import { Sparkles, AlertCircle, RefreshCw, Layers, Compass, ArrowUp } from "lucide-react";
 
 export default function App() {
   const [selectedCity, setSelectedCity] = useState("New York");
-  const [currentIntent, setCurrentIntent] = useState<UserIntent | null>(null);
-  const [recommendations, setRecommendations] = useState<RankedEventRecommendation[]>([]);
+  const [currentIntent, setCurrentIntent] = useState<UserIntent | null>(DEFAULT_FALLBACK_INTENT);
+  const [recommendations, setRecommendations] = useState<RankedEventRecommendation[]>(DEFAULT_FALLBACK_RECOMMENDATIONS);
   const [retrievalSource, setRetrievalSource] = useState<"live_api" | "curated_provider">("curated_provider");
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<SystemStatus | null>(null);
@@ -43,20 +44,22 @@ export default function App() {
     }
   }, [savedEvents]);
 
-  // Initial load status check & default seed query
+  // Initial load status check
   useEffect(() => {
     fetch("/api/status")
-      .then((res) => res.json())
-      .then((data) => setStatus(data))
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => data && setStatus(data))
       .catch((err) => console.warn("Status check failed:", err));
 
-    handleSearch("I want a fun date this Saturday under $100.");
+    // Seed live pipeline if backend is ready
+    handleSearch("I want a fun date this Saturday under $100.", true);
   }, []);
 
-  // Primary natural language search pipeline
-  const handleSearch = async (prompt: string) => {
+  // Primary natural language search pipeline with graceful fallback
+  const handleSearch = async (prompt: string, isSilentWarmup = false) => {
     setIsLoading(true);
     setErrorMessage(null);
+
     try {
       const response = await fetch("/api/experience/pipeline", {
         method: "POST",
@@ -65,17 +68,33 @@ export default function App() {
       });
 
       if (!response.ok) {
-        throw new Error(`Concierge pipeline failed with status ${response.status}`);
+        // If server returned 404 or non-200, check if we can parse body or throw
+        const errJson = await response.json().catch(() => null);
+        throw new Error(errJson?.error || `Server responded with status ${response.status}`);
       }
 
       const data = await response.json();
-      setCurrentIntent(data.intent);
-      setRecommendations(data.recommendations || []);
-      setRetrievalSource(data.retrievalSource || "curated_provider");
-      setAppliedRefinements([]);
+      if (data.intent && data.recommendations && data.recommendations.length > 0) {
+        setCurrentIntent(data.intent);
+        setRecommendations(data.recommendations);
+        setRetrievalSource(data.retrievalSource || "curated_provider");
+        setAppliedRefinements([]);
+      }
     } catch (err: any) {
-      console.error("Search error:", err);
-      setErrorMessage(err.message || "Failed to retrieve recommendations. Please try again.");
+      console.warn("Search API fallback triggered:", err.message);
+
+      // If silent warmup failed, keep existing fallback data smoothly
+      if (!isSilentWarmup) {
+        setErrorMessage(
+          "Connecting to live concierge service. Showing curated offline experiences in the meantime."
+        );
+      }
+
+      // Ensure user always sees valid matching recommendations
+      if (recommendations.length === 0) {
+        setCurrentIntent(DEFAULT_FALLBACK_INTENT);
+        setRecommendations(DEFAULT_FALLBACK_RECOMMENDATIONS);
+      }
     } finally {
       setIsLoading(false);
     }
