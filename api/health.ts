@@ -10,10 +10,6 @@ export interface HealthCheckResponse {
       configured: boolean;
       status: "ready" | "missing_api_key";
     };
-    sora: {
-      configured: boolean;
-      status: "ready" | "missing_api_key";
-    };
     gemini: {
       configured: boolean;
       status: "ready" | "missing_api_key";
@@ -33,10 +29,6 @@ export function getHealthStatus(): HealthCheckResponse {
   const hasTicketmasterKey = Boolean(
     process.env.TICKETMASTER_API_KEY && process.env.TICKETMASTER_API_KEY.trim() !== ""
   );
-  const hasSoraKey = Boolean(
-    (process.env.SORA_API_KEY && process.env.SORA_API_KEY.trim() !== "") ||
-    (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY.trim() !== "")
-  );
   const hasGeminiKey = Boolean(
     process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim() !== ""
   );
@@ -52,10 +44,6 @@ export function getHealthStatus(): HealthCheckResponse {
       ticketmaster: {
         configured: hasTicketmasterKey,
         status: hasTicketmasterKey ? "ready" : "missing_api_key",
-      },
-      sora: {
-        configured: hasSoraKey,
-        status: hasSoraKey ? "ready" : "missing_api_key",
       },
       gemini: {
         configured: hasGeminiKey,

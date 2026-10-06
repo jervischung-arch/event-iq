@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Mount root /api routes (Ticketmaster, Sora, Health)
+// Mount root /api routes (Ticketmaster, Health)
 app.use("/api", apiRouter);
 
 const PORT = 3000;
@@ -19,14 +19,14 @@ const isProd = process.env.NODE_ENV === "production";
 // 1. Health & Configuration Status
 app.get("/api/status", (_req: Request, res: Response) => {
   const hasGemini = Boolean(process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim() !== "");
-  const hasDiscoveryApi = Boolean(process.env.EVENT_API_KEY && process.env.EVENT_API_KEY.trim() !== "");
+  const hasTicketmaster = Boolean(process.env.TICKETMASTER_API_KEY && process.env.TICKETMASTER_API_KEY.trim() !== "");
 
   res.json({
     status: "ok",
     app: "EventIQ",
     version: "2.4.0",
     geminiConfigured: hasGemini,
-    providerMode: hasDiscoveryApi ? "live_api" : "curated_provider",
+    providerMode: hasTicketmaster ? "live_api" : "curated_provider",
     tagline: "Search tells you what is happening. EventIQ tells you what you should do.",
   });
 });
