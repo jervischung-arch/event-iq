@@ -1,0 +1,6 @@
+{
+  "name": "EventIQ - AI Event Concierge",
+  "description": "Don't search for events. Describe the experience. EventIQ uses natural language, Ticketmaster Discovery API v2, and RAG to recommend and compare experiences.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
