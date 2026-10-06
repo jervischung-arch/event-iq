@@ -1,4 +1,4 @@
-export interface TicketmasterVenue {
+export interface EventVenue {
   id: string;
   name: string;
   city: { name: string };
@@ -10,7 +10,7 @@ export interface TicketmasterVenue {
   generalInfo?: { generalRule?: string; childRule?: string };
 }
 
-export interface TicketmasterAttraction {
+export interface EventAttraction {
   id: string;
   name: string;
   classifications?: Array<{
@@ -20,14 +20,14 @@ export interface TicketmasterAttraction {
   }>;
 }
 
-export interface TicketmasterPriceRange {
+export interface EventPriceRange {
   type: string;
   currency: string;
   min: number;
   max: number;
 }
 
-export interface TicketmasterImage {
+export interface EventImage {
   ratio: string;
   url: string;
   width: number;
@@ -35,13 +35,13 @@ export interface TicketmasterImage {
   fallback?: boolean;
 }
 
-export interface TicketmasterEvent {
+export interface LiveEvent {
   id: string;
   name: string;
   type: string;
   url: string;
   locale?: string;
-  images: TicketmasterImage[];
+  images: EventImage[];
   sales?: {
     public?: {
       startDateTime?: string;
@@ -63,12 +63,12 @@ export interface TicketmasterEvent {
     genre?: { id?: string; name: string };
     subGenre?: { id?: string; name: string };
   }>;
-  priceRanges?: TicketmasterPriceRange[];
+  priceRanges?: EventPriceRange[];
   pleaseNote?: string;
   info?: string;
   _embedded?: {
-    venues?: TicketmasterVenue[];
-    attractions?: TicketmasterAttraction[];
+    venues?: EventVenue[];
+    attractions?: EventAttraction[];
   };
   isSponsored?: boolean;
   sponsoredNote?: string;
@@ -76,12 +76,12 @@ export interface TicketmasterEvent {
   experienceRating?: number;
 }
 
-export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
+export const MOCK_DISCOVERY_EVENTS: LiveEvent[] = [
   {
     id: "vvG1zZ4t9x3aBc01",
     name: "Midnight Candlelight Jazz Sessions: Nora Jones Trio",
     type: "event",
-    url: "https://www.ticketmaster.com/midnight-candlelight-jazz-new-york",
+    url: "https://tickets.eventiq.ai/events/midnight-candlelight-jazz-new-york",
     locale: "en-us",
     images: [
       {
@@ -141,7 +141,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     id: "vvG1zZ9Q8p1kLn02",
     name: "Comedy Underground: Saturday Night All-Stars Showcase",
     type: "event",
-    url: "https://www.ticketmaster.com/comedy-underground-allstars-new-york",
+    url: "https://tickets.eventiq.ai/events/comedy-underground-allstars-new-york",
     locale: "en-us",
     images: [
       {
@@ -173,8 +173,8 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
       }
     ],
     priceRanges: [{ type: "standard", currency: "USD", min: 32.0, max: 55.0 }],
-    pleaseNote: "Ages 21+. Two item minimum. Features comedians from HBO, Netflix, and Comedy Central specials.",
-    info: "Fast-paced, laugh-until-you-cry showcase featuring 5 top nationally touring headliners and surprise celebrity drop-ins.",
+    pleaseNote: "Ages 21+. Two item minimum. Features top nationally touring headliners and surprise celebrity drop-ins.",
+    info: "Fast-paced, laugh-until-you-cry showcase featuring 5 top headliners.",
     _embedded: {
       venues: [
         {
@@ -201,7 +201,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     id: "vvG1zZ7Mm3qW03",
     name: "Secret Rooftop Sunset Cinema & Wine Pairing",
     type: "event",
-    url: "https://www.ticketmaster.com/rooftop-cinema-sunset-soho",
+    url: "https://tickets.eventiq.ai/events/rooftop-cinema-sunset-soho",
     locale: "en-us",
     images: [
       {
@@ -248,7 +248,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     id: "vvG1zZ1P7y8K04",
     name: "Cirque Nouveau: Celestial Dreamscapes",
     type: "event",
-    url: "https://www.ticketmaster.com/cirque-nouveau-celestial-dreamscapes",
+    url: "https://tickets.eventiq.ai/events/cirque-nouveau-celestial-dreamscapes",
     locale: "en-us",
     images: [
       {
@@ -295,7 +295,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     id: "vvG1zZ5Tx1pQ05",
     name: "Brooklyn Indie Fest: Acoustic Garden Sessions",
     type: "event",
-    url: "https://www.ticketmaster.com/brooklyn-indie-garden-sessions",
+    url: "https://tickets.eventiq.ai/events/brooklyn-indie-garden-sessions",
     locale: "en-us",
     images: [
       {
@@ -342,7 +342,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     id: "vvG1zZ8Mm9sT06",
     name: "New York City FC vs. LA Galaxy: Eastern Showcase",
     type: "event",
-    url: "https://www.ticketmaster.com/nycfc-vs-la-galaxy-soccer-showdown",
+    url: "https://tickets.eventiq.ai/events/nycfc-vs-la-galaxy-soccer-showdown",
     locale: "en-us",
     images: [
       {
@@ -369,7 +369,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     ],
     priceRanges: [{ type: "standard", currency: "USD", min: 38.0, max: 145.0 }],
     pleaseNote: "Family section and supporters section available. Pre-match fan fest with interactive games starts 2 hours prior.",
-    info: "Electric MLS clash under stadium lights featuring international superstars and high-tempo rivalry soccer action.",
+    info: "Electric soccer clash under stadium lights featuring international stars and high-tempo rivalry soccer action.",
     _embedded: {
       venues: [
         {
@@ -389,7 +389,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     id: "vvG1zZ2Nn4kL07",
     name: "Illuminated Bach: Classical Strings by Candlelight",
     type: "event",
-    url: "https://www.ticketmaster.com/illuminated-bach-classical-strings",
+    url: "https://tickets.eventiq.ai/events/illuminated-bach-classical-strings",
     locale: "en-us",
     images: [
       {
@@ -436,7 +436,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     id: "vvG1zZ6Kk8vM08",
     name: "Immersive Van Gogh & Digital Masters: Nocturne Lounge",
     type: "event",
-    url: "https://www.ticketmaster.com/immersive-van-gogh-nocturne-lounge",
+    url: "https://tickets.eventiq.ai/events/immersive-van-gogh-nocturne-lounge",
     locale: "en-us",
     images: [
       {
@@ -485,7 +485,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     id: "vvG1zZ3Jj7bN09",
     name: "Broadway Under the Stars: Cabaret & Dinner Show",
     type: "event",
-    url: "https://www.ticketmaster.com/broadway-under-the-stars-cabaret",
+    url: "https://tickets.eventiq.ai/events/broadway-under-the-stars-cabaret",
     locale: "en-us",
     images: [
       {
@@ -532,7 +532,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     id: "vvG1zZ0Pp5mX10",
     name: "Secret Speakeasy Magic: Parlour of Illusions",
     type: "event",
-    url: "https://www.ticketmaster.com/speakeasy-magic-parlour-illusions",
+    url: "https://tickets.eventiq.ai/events/speakeasy-magic-parlour-illusions",
     locale: "en-us",
     images: [
       {
@@ -559,7 +559,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     ],
     priceRanges: [{ type: "standard", currency: "USD", min: 55.0, max: 95.0 }],
     pleaseNote: "Strictly limited to 45 guests per show. Password sent via SMS 2 hours prior to curtain.",
-    info: "Hidden behind a faux bookstore doorway, experience world-class close-up sleight of hand, mentalism, and craft prohibition cocktails.",
+    info: "Hidden behind a faux bookstore doorway, experience world-class close-up sleight of hand, mentalism, and craft cocktails.",
     _embedded: {
       venues: [
         {
@@ -575,12 +575,11 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     },
     vibeTags: ["Adventurous", "Memorable", "Unique Experience", "Date Night", "Intimate"]
   },
-  // Additional events across Los Angeles, Chicago, San Francisco, Austin for broader queries
   {
     id: "vvG1zZ7La1bC11",
     name: "Sunset Acoustic Sessions at Griffith Observatory Lawn",
     type: "event",
-    url: "https://www.ticketmaster.com/sunset-acoustic-los-angeles",
+    url: "https://tickets.eventiq.ai/events/sunset-acoustic-los-angeles",
     locale: "en-us",
     images: [
       {
@@ -625,7 +624,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     id: "vvG1zZ8Chi1k12",
     name: "Second City Mainstage: Best of Chicago Improv",
     type: "event",
-    url: "https://www.ticketmaster.com/second-city-chicago-saturday-improv",
+    url: "https://tickets.eventiq.ai/events/second-city-chicago-saturday-improv",
     locale: "en-us",
     images: [
       {
@@ -651,7 +650,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
       }
     ],
     priceRanges: [{ type: "standard", currency: "USD", min: 34.0, max: 60.0 }],
-    info: "The legendary comedy institution that launched Tina Fey, Steve Carell, and Keegan-Michael Key in a razor-sharp sketch revue.",
+    info: "The legendary comedy institution in a razor-sharp Saturday sketch revue.",
     _embedded: {
       venues: [
         {
@@ -670,7 +669,7 @@ export const MOCK_TICKETMASTER_EVENTS: TicketmasterEvent[] = [
     id: "vvG1zZ9Aus1m13",
     name: "Austin Blues & BBQ Twilight Jam",
     type: "event",
-    url: "https://www.ticketmaster.com/austin-blues-bbq-twilight-jam",
+    url: "https://tickets.eventiq.ai/events/austin-blues-bbq-twilight-jam",
     locale: "en-us",
     images: [
       {

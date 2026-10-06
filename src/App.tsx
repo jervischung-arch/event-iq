@@ -8,7 +8,7 @@ import { EventComparisonModal } from "./components/EventComparisonModal";
 import { EventDetailModal } from "./components/EventDetailModal";
 import { EnterpriseModal } from "./components/EnterpriseModal";
 import { SavedEventsDrawer } from "./components/SavedEventsDrawer";
-import { UserIntent, RankedEventRecommendation, TicketmasterEvent, SystemStatus } from "./types";
+import { UserIntent, RankedEventRecommendation, LiveEvent, SystemStatus } from "./types";
 import { Sparkles, AlertCircle, RefreshCw, Layers, Compass, ArrowUp } from "lucide-react";
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
   const [retrievalSource, setRetrievalSource] = useState<"live_api" | "curated_provider">("curated_provider");
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<SystemStatus | null>(null);
-  const [savedEvents, setSavedEvents] = useState<TicketmasterEvent[]>(() => {
+  const [savedEvents, setSavedEvents] = useState<LiveEvent[]>(() => {
     try {
       const stored = localStorage.getItem("eventiq_saved");
       return stored ? JSON.parse(stored) : [];
@@ -26,7 +26,7 @@ export default function App() {
       return [];
     }
   });
-  const [compareEvents, setCompareEvents] = useState<TicketmasterEvent[]>([]);
+  const [compareEvents, setCompareEvents] = useState<LiveEvent[]>([]);
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
   const [isSavedDrawerOpen, setIsSavedDrawerOpen] = useState(false);
   const [isEnterpriseModalOpen, setIsEnterpriseModalOpen] = useState(false);
@@ -50,7 +50,6 @@ export default function App() {
       .then((data) => setStatus(data))
       .catch((err) => console.warn("Status check failed:", err));
 
-    // Run default concierge query so users immediately see recommendations
     handleSearch("I want a fun date this Saturday under $100.");
   }, []);
 
@@ -139,7 +138,7 @@ export default function App() {
   };
 
   // Toggle comparison item (up to 3)
-  const handleToggleCompare = (event: TicketmasterEvent) => {
+  const handleToggleCompare = (event: LiveEvent) => {
     setCompareEvents((prev) => {
       const exists = prev.some((e) => e.id === event.id);
       if (exists) {
@@ -149,16 +148,12 @@ export default function App() {
         setIsCompareModalOpen(true);
         return prev;
       }
-      const next = [...prev, event];
-      if (next.length === 2 || next.length === 3) {
-        // Subtle hint or auto modal open option
-      }
-      return next;
+      return [...prev, event];
     });
   };
 
   // Toggle saved bookmarks
-  const handleToggleSave = (event: TicketmasterEvent) => {
+  const handleToggleSave = (event: LiveEvent) => {
     setSavedEvents((prev) => {
       const exists = prev.some((e) => e.id === event.id);
       if (exists) {
@@ -226,7 +221,7 @@ export default function App() {
               EventIQ Concierge is synthesizing experiences...
             </p>
             <p className="text-xs text-slate-500 mt-1">
-              Extracting intent • Filtering Ticketmaster v2 • Gemini RAG Ranking
+              Extracting intent • Filtering Live Discovery • Gemini RAG Ranking
             </p>
           </div>
         )}
@@ -317,10 +312,10 @@ export default function App() {
             <span className="text-slate-400">The AI Event Concierge</span>
           </div>
           <p className="max-w-lg mx-auto text-slate-400 italic">
-            “Ticketmaster tells us what is happening. EventIQ tells you what you should do.”
+            “Search tells you what is happening. EventIQ tells you what you should do.”
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] text-slate-400">
-            <span>Powered by Ticketmaster Discovery API v2</span>
+            <span>Powered by Live Event Discovery Engine</span>
             <span>•</span>
             <span>Gemini RAG Hybrid Ranking</span>
             <span>•</span>
@@ -332,7 +327,7 @@ export default function App() {
             </button>
           </div>
           <p className="text-[10px] text-slate-500 pt-2">
-            © 2026 EventIQ Technologies. All event data, trademarks, and tickets sourced via Ticketmaster Partner APIs.
+            © 2026 EventIQ Technologies. All event data, trademarks, and tickets sourced via verified event partner APIs.
           </p>
         </div>
       </footer>

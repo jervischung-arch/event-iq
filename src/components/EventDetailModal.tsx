@@ -34,7 +34,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({ recommendati
   const maxPrice = event.priceRanges?.[0]?.max;
   const priceFormatted = minPrice
     ? `$${Math.round(minPrice)}${maxPrice && maxPrice > minPrice ? ` - $${Math.round(maxPrice)}` : ""}`
-    : "On Ticketmaster";
+    : "Official Pricing";
 
   const category =
     event.classifications?.[0]?.genre?.name ||
@@ -199,7 +199,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({ recommendati
         <div className="p-6 border-t border-slate-800 bg-slate-900/90 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-xs text-slate-400">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Guaranteed verified Ticketmaster seats</span>
+            <span>Guaranteed verified authentic seats</span>
           </div>
 
           <a
@@ -208,7 +208,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({ recommendati
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 text-white text-sm font-bold shadow-lg shadow-rose-500/25 transition cursor-pointer"
           >
-            <span>Proceed to Ticketmaster</span>
+            <span>Proceed to Official Tickets</span>
             <ExternalLink className="w-4 h-4" />
           </a>
         </div>

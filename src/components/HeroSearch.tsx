@@ -50,7 +50,7 @@ export const HeroSearch: React.FC<HeroSearchProps> = ({ onSearch, isLoading, sel
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/60 shadow-inner mb-6">
           <Sparkles className="w-4 h-4 text-rose-400" />
           <span className="text-xs sm:text-sm font-medium text-slate-200">
-            AI Event Concierge grounded in <strong className="text-white font-semibold">Ticketmaster Discovery v2</strong>
+            AI Event Concierge grounded in <strong className="text-white font-semibold">Real-Time Discovery Data</strong>
           </span>
         </div>
 
@@ -64,7 +64,7 @@ export const HeroSearch: React.FC<HeroSearchProps> = ({ onSearch, isLoading, sel
 
         {/* Supporting subtitle */}
         <p className="text-base sm:text-xl text-slate-400 max-w-2xl mx-auto mb-8 font-light leading-relaxed">
-          Tell EventIQ the mood, budget, companionship, and vibe. Our hybrid RAG engine extracts your intent, retrieves live Ticketmaster events, and explains why they fit.
+          Tell EventIQ the mood, budget, companionship, and vibe. Our hybrid RAG engine extracts your intent, retrieves live verified events, and explains why they fit.
         </p>
 
         {/* Search Input Box */}
@@ -141,7 +141,7 @@ export const HeroSearch: React.FC<HeroSearchProps> = ({ onSearch, isLoading, sel
         {/* Core Message Callout */}
         <div className="mt-10 max-w-xl mx-auto p-4 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-slate-900/90 border border-slate-800/80 text-center shadow-lg">
           <p className="text-xs sm:text-sm text-slate-300 font-medium">
-            <span className="text-slate-400">“Ticketmaster tells us what is happening.</span>{" "}
+            <span className="text-slate-400">“Search engines tell you what is happening.</span>{" "}
             <span className="text-rose-400 font-bold">EventIQ tells you what you should do.”</span>
           </p>
         </div>

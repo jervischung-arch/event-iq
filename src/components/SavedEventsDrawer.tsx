@@ -1,13 +1,13 @@
 import React from "react";
-import { TicketmasterEvent } from "../types";
+import { LiveEvent } from "../types";
 import { X, Bookmark, ExternalLink, Calendar, MapPin, Trash2, GitCompare } from "lucide-react";
 
 interface SavedEventsDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  savedEvents: TicketmasterEvent[];
+  savedEvents: LiveEvent[];
   onRemoveSaved: (eventId: string) => void;
-  onCompareEvent: (event: TicketmasterEvent) => void;
+  onCompareEvent: (event: LiveEvent) => void;
   onClearAll: () => void;
 }
 
@@ -68,7 +68,7 @@ export const SavedEventsDrawer: React.FC<SavedEventsDrawerProps> = ({
                 event.images?.find((img) => img.ratio === "16_9")?.url ||
                 event.images?.[0]?.url;
               const minPrice = event.priceRanges?.[0]?.min;
-              const priceText = minPrice ? `From $${Math.round(minPrice)}` : "On Ticketmaster";
+              const priceText = minPrice ? `From $${Math.round(minPrice)}` : "Available Online";
 
               return (
                 <div

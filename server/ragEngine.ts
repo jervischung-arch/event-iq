@@ -1,6 +1,6 @@
 import { ai, GEMINI_MODEL } from "./gemini.js";
-import { searchTicketmasterEvents } from "./ticketmaster.js";
-import { TicketmasterEvent } from "./mockEvents.js";
+import { searchLiveEvents } from "./eventsProvider.js";
+import { LiveEvent } from "./mockEvents.js";
 import { Type } from "@google/genai";
 
 export interface UserIntent {
@@ -17,7 +17,7 @@ export interface UserIntent {
 }
 
 export interface RankedEventRecommendation {
-  event: TicketmasterEvent;
+  event: LiveEvent;
   matchScore: number;
   rank: number;
   whyWeRecommendIt: string;
@@ -39,7 +39,7 @@ export async function extractIntent(prompt: string, currentLocation?: string): P
   try {
     const response = await ai.models.generateContent({
       model: GEMINI_MODEL,
-      contents: `You are the intent parsing engine for EventIQ, an elite AI event concierge using Ticketmaster data.
+      contents: `You are the intent parsing engine for EventIQ, an elite AI event concierge using real-time event discovery.
 The user described their desired experience: "${prompt}".
 Analyze the prompt and extract the structured intent into JSON.
 Default location to "${fallbackLocation}" if no city is explicitly mentioned or implied.
@@ -74,7 +74,7 @@ Return valid JSON adhering to the specified schema.`,
             categoryPreference: {
               type: Type.ARRAY,
               items: { type: Type.STRING },
-              description: "Ticketmaster classification segments, e.g. Music, Arts & Theatre, Comedy, Sports, Film",
+              description: "Event classification segments, e.g. Music, Arts & Theatre, Comedy, Sports, Film",
             },
             keywords: {
               type: Type.ARRAY,
@@ -204,11 +204,11 @@ export async function rankAndExplainEvents(
   recommendations: RankedEventRecommendation[];
   retrievalSource: "live_api" | "curated_provider";
 }> {
-  // Step A: Structured Ticketmaster Discovery retrieval
+  // Step A: Structured Discovery retrieval
   const primaryCategory = intent.categoryPreference?.[0] || undefined;
   const primaryKeyword = intent.keywords?.[0] || undefined;
 
-  const { events: candidateEvents, source } = await searchTicketmasterEvents({
+  const { events: candidateEvents, source } = await searchLiveEvents({
     city: intent.location,
     classificationName: primaryCategory,
     keyword: primaryKeyword,
@@ -221,7 +221,6 @@ export async function rankAndExplainEvents(
   }
 
   // Step B: RAG context preparation
-  // Provide authentic Ticketmaster event facts to Gemini
   const candidatesSummary = candidateEvents.slice(0, 10).map((ev, index) => {
     const venue = ev._embedded?.venues?.[0];
     const minP = ev.priceRanges?.[0]?.min;
@@ -247,7 +246,7 @@ export async function rankAndExplainEvents(
   // Step C: Gemini RAG Ranking & Grounded Explanation
   try {
     const prompt = `You are EventIQ, the intelligent AI event concierge.
-Core mission: "Ticketmaster tells us what is happening. EventIQ tells you what you should do."
+Core mission: "Traditional search tells you what is happening. EventIQ tells you what you should do."
 
 User's Experience Intent:
 - Occasion: ${intent.occasion}
@@ -257,7 +256,7 @@ User's Experience Intent:
 - Location: ${intent.location}
 - User's Original Words: "${intent.userPrompt}"
 
-Retrieved Ticketmaster Discovery Candidates (FACTUAL GROUND TRUTH - DO NOT INVENT DATES, VENUES, OR PRICES):
+Retrieved Live Event Candidates (FACTUAL GROUND TRUTH - DO NOT INVENT DATES, VENUES, OR PRICES):
 ${JSON.stringify(candidatesSummary, null, 2)}
 
 Instructions:
@@ -346,7 +345,7 @@ Output strictly valid JSON.`;
     experienceHighlights: [
       ev.priceRanges?.[0]?.min ? `Starting at $${ev.priceRanges[0].min}` : "Flexible pricing",
       ev._embedded?.venues?.[0]?.name ? `At ${ev._embedded.venues[0].name}` : "Central location",
-      "Authentic verified Ticketmaster tickets",
+      "Authentic verified tickets",
     ],
     recommendedArrival: "Arrive 45 minutes prior for optimal seating.",
     atmospherePros: ["Great sightlines", "Lively social ambiance"],

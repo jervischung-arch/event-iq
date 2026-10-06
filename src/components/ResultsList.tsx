@@ -1,5 +1,5 @@
 import React from "react";
-import { RankedEventRecommendation, TicketmasterEvent } from "../types";
+import { RankedEventRecommendation, LiveEvent } from "../types";
 import {
   Sparkles,
   Calendar,
@@ -19,10 +19,10 @@ interface ResultsListProps {
   recommendations: RankedEventRecommendation[];
   retrievalSource?: "live_api" | "curated_provider";
   onSelectEventDetail: (rec: RankedEventRecommendation) => void;
-  onToggleCompare: (event: TicketmasterEvent) => void;
-  onToggleSave: (event: TicketmasterEvent) => void;
-  compareList: TicketmasterEvent[];
-  savedList: TicketmasterEvent[];
+  onToggleCompare: (event: LiveEvent) => void;
+  onToggleSave: (event: LiveEvent) => void;
+  compareList: LiveEvent[];
+  savedList: LiveEvent[];
 }
 
 export const ResultsList: React.FC<ResultsListProps> = ({
@@ -62,14 +62,14 @@ export const ResultsList: React.FC<ResultsListProps> = ({
             </span>
           </div>
           <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Ranked by AI concierge match score and grounded in Ticketmaster event data.
+            Ranked by AI concierge match score and grounded in verified event data.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-800 text-[11px] text-slate-300">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Factual Ticketmaster Data</span>
+            <span>Verified Event Ground Truth</span>
           </div>
         </div>
       </div>
@@ -95,9 +95,8 @@ export const ResultsList: React.FC<ResultsListProps> = ({
           const maxPrice = event.priceRanges?.[0]?.max;
           const priceText = minPrice
             ? `$${Math.round(minPrice)}${maxPrice && maxPrice > minPrice ? ` - $${Math.round(maxPrice)}` : ""}`
-            : "Available on Ticketmaster";
+            : "Available Online";
 
-          // Match score styling
           const isTopMatch = index === 0;
 
           return (
@@ -133,7 +132,6 @@ export const ResultsList: React.FC<ResultsListProps> = ({
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                     loading="lazy"
                   />
-                  {/* Subtle dark gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent md:bg-gradient-to-r md:from-transparent md:to-slate-900" />
 
                   {/* Top Badges */}
@@ -165,7 +163,6 @@ export const ResultsList: React.FC<ResultsListProps> = ({
 
                   {/* Quick Action floating buttons on image */}
                   <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
-                    {/* Bookmark Save button */}
                     <button
                       onClick={() => onToggleSave(event)}
                       className={`p-2 rounded-xl backdrop-blur-md transition-all cursor-pointer ${
@@ -178,7 +175,6 @@ export const ResultsList: React.FC<ResultsListProps> = ({
                       <Bookmark className="w-4 h-4 fill-current" />
                     </button>
 
-                    {/* View Details preview */}
                     <button
                       onClick={() => onSelectEventDetail(rec)}
                       className="p-2 rounded-xl bg-slate-950/70 text-slate-300 hover:text-white hover:bg-slate-900 backdrop-blur-md transition-all cursor-pointer"
@@ -249,20 +245,19 @@ export const ResultsList: React.FC<ResultsListProps> = ({
 
                   {/* Card Bottom / Action Row */}
                   <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    {/* Price and Affiliate Note */}
+                    {/* Price and Partner Note */}
                     <div>
                       <div className="flex items-baseline gap-1.5">
                         <span className="text-xs text-slate-400">Tickets from:</span>
                         <span className="text-lg font-extrabold text-white font-mono">{priceText}</span>
                       </div>
                       <span className="text-[10px] text-slate-500">
-                        Official Ticketmaster Partner • No hidden fees
+                        Official Box Office Partner • Verified Authentic
                       </span>
                     </div>
 
                     {/* Buttons: Compare & Get Tickets */}
                     <div className="flex items-center gap-2.5 w-full sm:w-auto">
-                      {/* Compare toggle button */}
                       <button
                         onClick={() => onToggleCompare(event)}
                         className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
@@ -284,7 +279,6 @@ export const ResultsList: React.FC<ResultsListProps> = ({
                         )}
                       </button>
 
-                      {/* Direct Ticketmaster Link */}
                       <a
                         href={event.url}
                         target="_blank"

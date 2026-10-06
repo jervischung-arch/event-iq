@@ -1,13 +1,13 @@
 import React from "react";
 import { Sparkles, Compass, Bookmark, GitCompare, Building2, MapPin, CheckCircle2 } from "lucide-react";
-import { SystemStatus, TicketmasterEvent } from "../types";
+import { SystemStatus, LiveEvent } from "../types";
 
 interface HeaderProps {
   selectedCity: string;
   onCityChange: (city: string) => void;
   status: SystemStatus | null;
-  savedEvents: TicketmasterEvent[];
-  compareEvents: TicketmasterEvent[];
+  savedEvents: LiveEvent[];
+  compareEvents: LiveEvent[];
   onOpenSaved: () => void;
   onOpenCompare: () => void;
   onOpenEnterprise: () => void;
@@ -77,10 +77,10 @@ export const Header: React.FC<HeaderProps> = ({
             </select>
           </div>
 
-          {/* Ticketmaster Data Source Pill */}
+          {/* Live Data Source Pill */}
           <div className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-400">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span>Ticketmaster Discovery API</span>
+            <span>Live Discovery Engine</span>
           </div>
 
           {/* Compare Button */}

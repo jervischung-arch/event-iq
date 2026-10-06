@@ -1,11 +1,11 @@
 import React from "react";
-import { TicketmasterEvent } from "../types";
+import { LiveEvent } from "../types";
 import { X, GitCompare, ExternalLink, Calendar, MapPin, DollarSign, Sparkles, Check, Trash2 } from "lucide-react";
 
 interface EventComparisonModalProps {
   isOpen: boolean;
   onClose: () => void;
-  events: TicketmasterEvent[];
+  events: LiveEvent[];
   onRemoveEvent: (eventId: string) => void;
   onClearAll: () => void;
 }
@@ -68,7 +68,7 @@ export const EventComparisonModal: React.FC<EventComparisonModalProps> = ({
             </div>
           ) : (
             <div className={`grid grid-cols-1 md:grid-cols-${events.length} gap-6`}>
-              {events.map((event, idx) => {
+              {events.map((event) => {
                 const venue = event._embedded?.venues?.[0];
                 const image =
                   event.images?.find((img) => img.ratio === "16_9")?.url ||
@@ -77,7 +77,7 @@ export const EventComparisonModal: React.FC<EventComparisonModalProps> = ({
                 const maxPrice = event.priceRanges?.[0]?.max;
                 const priceFormatted = minPrice
                   ? `$${Math.round(minPrice)}${maxPrice && maxPrice > minPrice ? ` - $${Math.round(maxPrice)}` : ""}`
-                  : "On Ticketmaster";
+                  : "Available Online";
 
                 const category =
                   event.classifications?.[0]?.genre?.name ||
@@ -185,7 +185,7 @@ export const EventComparisonModal: React.FC<EventComparisonModalProps> = ({
                           Event Overview
                         </span>
                         <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed">
-                          {event.info || event.pleaseNote || "Verified Ticketmaster live experience."}
+                          {event.info || event.pleaseNote || "Verified live experience."}
                         </p>
                       </div>
                     </div>
@@ -198,7 +198,7 @@ export const EventComparisonModal: React.FC<EventComparisonModalProps> = ({
                         rel="noopener noreferrer"
                         className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 text-white text-xs font-bold shadow-md transition cursor-pointer"
                       >
-                        <span>Book on Ticketmaster</span>
+                        <span>Book Official Tickets</span>
                         <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     </div>
@@ -211,7 +211,7 @@ export const EventComparisonModal: React.FC<EventComparisonModalProps> = ({
 
         {/* Modal Footer */}
         <div className="px-6 py-4 border-t border-slate-800 bg-slate-900/90 flex items-center justify-between text-xs text-slate-400">
-          <span>Official Ticketmaster Partner links • No price inflation</span>
+          <span>Official box office partner links • No price inflation</span>
           <button
             onClick={onClose}
             className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium transition cursor-pointer"

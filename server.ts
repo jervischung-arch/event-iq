@@ -15,15 +15,15 @@ const isProd = process.env.NODE_ENV === "production";
 // 1. Health & Configuration Status
 app.get("/api/status", (_req: Request, res: Response) => {
   const hasGemini = Boolean(process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim() !== "");
-  const hasTicketmaster = Boolean(process.env.TICKETMASTER_API_KEY && process.env.TICKETMASTER_API_KEY.trim() !== "");
+  const hasDiscoveryApi = Boolean(process.env.EVENT_API_KEY && process.env.EVENT_API_KEY.trim() !== "");
 
   res.json({
     status: "ok",
     app: "EventIQ",
     version: "2.4.0",
     geminiConfigured: hasGemini,
-    ticketmasterMode: hasTicketmaster ? "live_api" : "curated_provider",
-    tagline: "Ticketmaster tells us what is happening. EventIQ tells you what you should do.",
+    providerMode: hasDiscoveryApi ? "live_api" : "curated_provider",
+    tagline: "Search tells you what is happening. EventIQ tells you what you should do.",
   });
 });
 

@@ -1,4 +1,4 @@
-export interface TicketmasterVenue {
+export interface EventVenue {
   id: string;
   name: string;
   city: { name: string };
@@ -10,7 +10,7 @@ export interface TicketmasterVenue {
   generalInfo?: { generalRule?: string; childRule?: string };
 }
 
-export interface TicketmasterAttraction {
+export interface EventAttraction {
   id: string;
   name: string;
   classifications?: Array<{
@@ -20,14 +20,14 @@ export interface TicketmasterAttraction {
   }>;
 }
 
-export interface TicketmasterPriceRange {
+export interface EventPriceRange {
   type: string;
   currency: string;
   min: number;
   max: number;
 }
 
-export interface TicketmasterImage {
+export interface EventImage {
   ratio: string;
   url: string;
   width: number;
@@ -35,13 +35,13 @@ export interface TicketmasterImage {
   fallback?: boolean;
 }
 
-export interface TicketmasterEvent {
+export interface LiveEvent {
   id: string;
   name: string;
   type: string;
   url: string;
   locale?: string;
-  images: TicketmasterImage[];
+  images: EventImage[];
   dates: {
     start: {
       localDate: string;
@@ -57,12 +57,12 @@ export interface TicketmasterEvent {
     genre?: { id?: string; name: string };
     subGenre?: { id?: string; name: string };
   }>;
-  priceRanges?: TicketmasterPriceRange[];
+  priceRanges?: EventPriceRange[];
   pleaseNote?: string;
   info?: string;
   _embedded?: {
-    venues?: TicketmasterVenue[];
-    attractions?: TicketmasterAttraction[];
+    venues?: EventVenue[];
+    attractions?: EventAttraction[];
   };
   isSponsored?: boolean;
   sponsoredNote?: string;
@@ -83,7 +83,7 @@ export interface UserIntent {
 }
 
 export interface RankedEventRecommendation {
-  event: TicketmasterEvent;
+  event: LiveEvent;
   matchScore: number;
   rank: number;
   whyWeRecommendIt: string;
@@ -98,6 +98,6 @@ export interface SystemStatus {
   app: string;
   version: string;
   geminiConfigured: boolean;
-  ticketmasterMode: "live_api" | "curated_provider";
+  providerMode: "live_api" | "curated_provider";
   tagline: string;
 }

@@ -40,7 +40,7 @@ export const EnterpriseModal: React.FC<EnterpriseModalProps> = ({ isOpen, onClos
       "name": "Midnight Candlelight Jazz Sessions",
       "venue": "Blue Note Jazz Club",
       "whyWeRecommendIt": "Immersive candlelit atmosphere with reserved banquettes and vintage champagne.",
-      "ticketUrl": "https://www.ticketmaster.com/event/vvG1zZ4t9x3aBc01?aff=partner_marriott"
+      "ticketUrl": "https://tickets.eventiq.ai/event/vvG1zZ4t9x3aBc01?aff=partner_marriott"
     }
   ]
 }`;
@@ -140,7 +140,7 @@ export const EnterpriseModal: React.FC<EnterpriseModalProps> = ({ isOpen, onClos
                   Transform Raw Event Listings into High-Converting Guest Experiences
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Ticketmaster lists millions of events, but travelers don’t want a directory — they want curated recommendations that match their trip vibe. EventIQ seamlessly embeds into your digital ecosystem.
+                  Traditional directories list millions of events, but travelers don’t want a directory — they want curated recommendations that match their trip vibe. EventIQ seamlessly embeds into your digital ecosystem.
                 </p>
               </div>
 
@@ -182,7 +182,7 @@ export const EnterpriseModal: React.FC<EnterpriseModalProps> = ({ isOpen, onClos
               {/* Business Model Summary */}
               <div className="p-4 rounded-2xl bg-slate-950/40 border border-slate-800 text-xs text-slate-400 space-y-1">
                 <strong className="text-white block mb-1">EventIQ Monetization Architecture:</strong>
-                <p>• <strong>B2C:</strong> Free consumer experience discovery powered by verified Ticketmaster affiliate links.</p>
+                <p>• <strong>B2C:</strong> Free consumer experience discovery powered by verified box office affiliate links.</p>
                 <p>• <strong>B2B API:</strong> Tiered monthly API subscription based on query volume + white-label UI SDK.</p>
                 <p>• <strong>Sponsored Discovery:</strong> Verified event promoters can bid on sponsored placements, transparently badged and never overriding true relevance.</p>
               </div>
